@@ -1,169 +1,183 @@
--- MySQL Workbench Forward Engineering
-
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
-
--- -----------------------------------------------------
--- Table `mydb`.`roles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`roles` (
-  `role_id` INT NOT NULL AUTO_INCREMENT,
-  `role_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`role_id`))
-ENGINE = InnoDB;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
 
--- -----------------------------------------------------
--- Table `mydb`.`users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(20) NOT NULL,
-  `email` VARCHAR(255) NULL,
-  `password` VARCHAR(40) NOT NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `role_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`),
-  INDEX `role_id_idx` (`role_id` ASC) VISIBLE,
-  CONSTRAINT `fk_role_id`
-    FOREIGN KEY (`role_id`)
-    REFERENCES `mydb`.`roles` (`role_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `forum`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `category`
+--
+
+CREATE TABLE `categories` (
+  `id_category` int(11) NOT NULL,
+  `category_title` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id_message` int(11) NOT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `id_topic` int(11) DEFAULT NULL,
+  `content` text,
+  `date_created` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id_role` int(11) NOT NULL,
+  `name_role` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `topics`
+--
+
+CREATE TABLE `topics` (
+  `id_topic` int(11) NOT NULL,
+  `id_category` int(11) DEFAULT NULL,
+  `topic_title` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
+--
+
+CREATE TABLE `users` (
+  `id_user` int(11) NOT NULL,
+  `id_role` int(11) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `mail` varchar(50) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `category`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id_category`);
+
+--
+-- Index pour la table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id_message`),
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_topic` (`id_topic`);
+
+--
+-- Index pour la table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id_role`);
+
+--
+-- Index pour la table `topics`
+--
+ALTER TABLE `topics`
+  ADD PRIMARY KEY (`id_topic`),
+  ADD KEY `id_category` (`id_category`);
+
+--
+-- Index pour la table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id_user`),
+  ADD KEY `id_role` (`id_role`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `category`
+--
+ALTER TABLE `categories`
+  MODIFY `id_category` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `topics`
+--
+ALTER TABLE `topics`
+  MODIFY `id_topic` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `messages`
+--
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`id_topic`) REFERENCES `topics` (`id_topic`),
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+--
+-- Contraintes pour la table `topics`
+--
+ALTER TABLE `topics`
+  ADD CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`id_cat`) REFERENCES `category` (`id_cat`);
+
+--
+-- Contraintes pour la table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_role`) REFERENCES `roles` (`id_role`);
+COMMIT;
 
 
--- -----------------------------------------------------
--- Table `mydb`.`categories`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categories` (
-  `category_id` INT NOT NULL AUTO_INCREMENT,
-  `category_name` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`category_id`));
+--
+-- Ajout des roles.
+--
+INSERT INTO roles (name_role) VALUES ("admin");
+INSERT INTO roles (name_role) VALUES ("moderator");
+INSERT INTO roles (name_role) VALUES ("user");
 
-
--- -----------------------------------------------------
--- Table `mydb`.`topics`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`topics` (
-  `topic_id` INT NOT NULL AUTO_INCREMENT,
-  `topic_name` VARCHAR(255) NOT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`topic_id`),
-  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`users` (`user_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`messages`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`messages` (
-  `message_id` INT NOT NULL AUTO_INCREMENT,
-  `content` MEDIUMTEXT NOT NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_id` INT NOT NULL,
-  `topic_id` INT NOT NULL,
-  PRIMARY KEY (`message_id`),
-  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_topic_id_idx` (`topic_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`users` (`user_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_topic_id`
-    FOREIGN KEY (`topic_id`)
-    REFERENCES `mydb`.`topics` (`topic_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`categories_topics`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`categories_topics` (
-  `category_id` INT NOT NULL,
-  `topic_id` INT NOT NULL,
-  INDEX `fk_category_id_idx` (`category_id` ASC) VISIBLE,
-  INDEX `fk_topic_id_idx` (`topic_id` ASC) VISIBLE,
-  CONSTRAINT `fk_category_id`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `mydb`.`categories` (`category_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_topic_id`
-    FOREIGN KEY (`topic_id`)
-    REFERENCES `mydb`.`topics` (`topic_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`likes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`likes` (
-  `id_like` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `message_id` INT NOT NULL,
-  `like_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_like`),
-  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_message_id_idx` (`message_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_message_id`
-    FOREIGN KEY (`message_id`)
-    REFERENCES `mydb`.`messages` (`message_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`replies`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`replies` (
-  `reply_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `message_id` INT NOT NULL,
-  `reply_content` TEXT NOT NULL,
-  `reply_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`reply_id`),
-  INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_message_id_idx` (`message_id` ASC) VISIBLE,
-  CONSTRAINT `fk_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`users` (`user_id`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_message_id`
-    FOREIGN KEY (`message_id`)
-    REFERENCES `mydb`.`messages` (`message_id`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
