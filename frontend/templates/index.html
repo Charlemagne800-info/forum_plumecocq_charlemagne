@@ -1,25 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
-    <title>Forum_Ynov</title>    
+    <title>Forum_Ynov</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="bar">
-        <a href="#" class="logo">lala </a> 
-        <div class="links">
+    <header class="bar">
+        <a href="#" class="logo">l'échec scolaire</a>
+        <nav class="links">
             <ul>
                 <li><a href="">menu</a></li>
                 <li><a href="">contact</a></li>
                 <li><a href="">produits</a></li>
             </ul>
-        </div>
+        </nav>
         <img class="hamburger" src="../assets/logos/menu.svg" alt="">
-    </nav>
+        
+        <div class="cont">
+            <span class="c-input">
+                <input type="text" name="text" class="input" placeholder="rechercher un forum">
+                <button class="search__btn"><img src="../assets/logos/loupe.svg" alt=""></button>
+            </span>
+                <a class="c-account ">
+                    <span class="ca-pseudo">
+                        <img src="../assets/logos/utilisateur.svg" alt="">
+                        CONNEXION
+                    </span>
+                </a>
+        </div>
+    </header>
+
+    <section class="centre">
+        <header class="c-head">
+            <p>Bienvenue sur l'échec scolaire le Forum-Ynov des B1</p>
+            <h1>EN CE MOMENT</h1>
+        </header>
+        <article class="cont-card">
+            <a class="c-card">
+                <h1>Forum</h1>
+                <h2>Module Forum</h2>
+                <img src="" alt="">
+            </a>
+
+            <a class="c-card">
+                <h1>Java</h1>
+                <h2>Langage Objet</h2>
+                <img src="" alt="">
+            </a>
+
+            <a class="c-card">
+                <h1>Challenge JS</h1>
+                <h2>Javascript</h2>
+                <img src="" alt="">
+            </a>
+
+            <a class="c-card">
+                <h1>Java</h1>
+                <h2>Langage Objet</h2>
+                <img src="" alt="">
+            </a>
+        </article>
+    </section>
 </body>
 
 <script src="/backend/js/main.js"></script>
