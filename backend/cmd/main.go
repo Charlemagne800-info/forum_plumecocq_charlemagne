@@ -16,7 +16,7 @@ func main() {
 		Passwd:               "password",
 		Net:                  "tcp",
 		Addr:                 "127.0.0.1:3306",
-		DBName:               "data-access",
+		DBName:               "forum",
 		AllowNativePasswords: true,
 	}
 
@@ -47,9 +47,9 @@ func main() {
 	http.HandleFunc("/inscrire", func(w http.ResponseWriter, r *http.Request) {
 
 		User := Data_User{
-			Name:     r.FormValue("Username"),
-			Email:    r.FormValue("Email"),
-			Password: r.FormValue("Password"),
+			Name:     r.FormValue("username"),
+			Email:    r.FormValue("mail"),
+			Password: r.FormValue("password"),
 			Admin:    "false",
 			Date:     DateObject(),
 		}
