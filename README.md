@@ -38,8 +38,8 @@ Une fois la connection avec la base de données créée, allez dans votre explor
 C'est fini ! 
 ## Fabriqué avec
 
-* [HTML5]([http://materializecss.com](https://html.com/)) - Langage de balisage
-* [CSS3]([https://atom.io/](https://www.w3.org/Style/CSS/Overview.en.html)) - Langage de style
+* [HTML5](https://html.com/) - Langage de balisage
+* [CSS3](https://www.w3.org/Style/CSS/Overview.en.html) - Langage de style
 * [JS](https://www.javascript.com/) Langage de programmation spécialisé web
 * [Virtual Studio Code](https://code.visualstudio.com/)
 * [MySQL](https://www.mysql.com/) MySQL
