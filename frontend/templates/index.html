@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/styles.css">
     <title>Forum_Ynov</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header class="bar">
-        <a href="#" class="logo">l'échec scolaire</a>
+        <div class="b-logo">
+            <img class="hamburger" src="../assets/logos/menu.svg" alt="">
+            <a href="#" class="logo">l'échec scolaire</a>
+        </div>
         <nav class="links">
             <ul>
                 <li><a href="">menu</a></li>
@@ -22,14 +23,14 @@
                 <li><a href="">produits</a></li>
             </ul>
         </nav>
-        <img class="hamburger" src="../assets/logos/menu.svg" alt="">
         
-        <div class="cont">
+        
+        <div class="b-cont">
             <span class="c-input">
                 <input type="text" name="text" class="input" placeholder="rechercher un forum">
                 <button class="search__btn"><img src="../assets/logos/loupe.svg" alt=""></button>
             </span>
-                <a class="c-account ">
+                <a class="c-account" href="./conection.html">
                     <span class="ca-pseudo">
                         <img src="../assets/logos/utilisateur.svg" alt="">
                         CONNEXION
@@ -38,63 +39,65 @@
         </div>
     </header>
 
-    <section class="centre">
-        <header class="c-head">
-            <p>Bienvenue sur l'échec scolaire le Forum-Ynov des B1</p>
-            <h1>EN CE MOMENT</h1>
-        </header>
-        <article class="cont-card">
-            <a class="c-card" style="color: #000; background-color: #23b2a4;">
-                <h1>Forum</h1>
-                <p>Module Forum</p>
-                <img src="../assets/logos/prof.svg" alt="">
-            </a>
-
-            <a class="c-card">
-                <h1>Java</h1>
-                <p>Langage Objet</p>
-                <img src="" alt="">
-            </a>
-
-            <a class="c-card">
-                <h1>Challenge JS</h1>
-                <p>Javascript</p>
-                <img src="" alt="">
-            </a>
-
-            <a class="c-card">
-                <h1>Java</h1>
-                <p>Langage Objet</p>
-                <img src="" alt="">
-            </a> 
-        </article>
-    </section>
-    <footer class="foot">
-        <div class="f-aix">
-            <span class="f-ynov">
-                <h1>Forum Ynov</h1>
-                <p>Forum Ynov Aix-en-Provence</p>
-                <img src="" class="f-logo">
-            </span>
+    <main>
+        <section class="centre">
+            <header class="c-head">
+                <p>Bienvenue sur l'échec scolaire le Forum-Ynov des B1</p>
+                <h1>EN CE MOMENT</h1>
+            </header>
+            <div class="cont-card">
+                <a class="c-card" href="#">
+                    <h1>Forum</h1>
+                    <p>Module Forum</p>
+                    <img src="../assets/logos/prof.svg" alt="Icône Forum">
+                </a>
+                <a class="c-card" href="#">
+                    <h1>Java</h1>
+                    <p>Langage Objet</p>
+                    <img src="" alt="Icône Java">
+                </a>
+                <a class="c-card" href="#">
+                    <h1>Challenge JS</h1>
+                    <p>Javascript</p>
+                    <img src="" alt="Icône JavaScript">
+                </a>
+                <a class="c-card" href="#">
+                    <h1>Java</h1>
+                    <p>Langage Objet</p>
+                    <img src="" alt="Icône Java">
+                </a>
               
+            </div>
+        </section>
+    </main>
+
+    <footer class="foot">
+        <div class="f-aix">              
             <span class="f-option">
-                <h1>Réseaux</h1>
-                <ul class="f-legend">
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
+                <h1>Nous suivre :</h1>
+                <ul>
+                    <li><a href="#"><img src="../assets/logos/github.svg" alt=""></a></li>
+                    <li><a href="#"></a><img src="../assets/logos/discord.svg" alt=""></li>
+                    <li><a href="#"></a><img src="../assets/logos/instagram.svg" alt=""></li>
                 </ul>
+            </span>
+
+            <span class="f-ynov">
+                <h1>Aix-en-Provence</h1>
+                <img src="../assets/logos/logo_ynov_campus_blanc.svg" class="f-logo">
             </span>
         </div>
 
         <div class="f-option">
-            <h3>Support</h3>
-            <ul class="FOOTER-legend">
-                <li><a href="#">Mail</a></li>
-                <li><a href="#">Numéro</a></li>
+            <h1>Support :</h1>
+            <ul>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">L'équipe</a></li>
+                <li><a href="#">Modération</a></li>
             </ul>
         </div>
     </footer>
-    </body>
+</body>
 
 <script src="/backend/js/main.js"></script>
 
