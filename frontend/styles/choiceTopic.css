@@ -277,6 +277,55 @@ main {
     align-items: center;
     justify-content: center;
     width: 100%;
+    gap: 20px;
+}
+
+.topic {
+    display: block;
+    width: 60%;
+}
+
+.t-info {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.t-info h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.t-info p {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.creat-topic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.creat-topic a {
+    background-color: var(--cl-text-secondary);
+    color: var(--cl-text-primary);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid var(--cl-v1-gren);
+}
+
+.creat-topic a:hover {
+    background-color: var(--cl-v1-off-white);
+    color: var(--cl-v1-gren);
 }
 
 .message {

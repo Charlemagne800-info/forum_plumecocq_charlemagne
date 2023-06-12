@@ -279,7 +279,18 @@ main {
     color: var(--cl-text-primary);
 }
 
-.profile-info {
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--cl-v1-gren);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.p-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -294,7 +305,7 @@ main {
     border-radius: 50%;
 }
 
-.username, .user-email {
+.username, .user-email { 
     font-size: 1.2em;
     font-weight: bold;
 }
