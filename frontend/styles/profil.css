@@ -27,7 +27,7 @@ ul {
 
 a {
     text-decoration: none;
-    color: #ECF0F1;
+    color: inherit;
 }
 
 :root {
@@ -41,7 +41,7 @@ a {
 }
 
 
-
+/* Navigation Bar Styles */
 
 body {
     background-color: var(--cl-primary);
@@ -61,6 +61,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 999;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);;
 }
 
 .logo {
@@ -267,70 +268,61 @@ body {
     }
 }
 
+
 /* Main Content Styles */
 
 main {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--cl-text-primary);
     margin: 50px;
+    color: var(--cl-text-primary);
 }
 
-.forum {
+.profile-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 60%;
-}
-
-.forum-info {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
-.forum-info h1 {
-    font-size: 3em;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.forum-info p {
-    font-size: 1.5em;
-    font-weight: 500;
-    margin-bottom: 20px;
     gap: 10px;
 }
 
-.message {
-    border: 1px solid var(--cl-v1-gren);
-    background-color: var(--cl-text-secondary);
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-}
-
-.username {
-    margin-right: 10px;
-    font-weight: bold;
-}
-
 .user-avatar {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
 }
 
-.message-content {
-    margin-top: 10px;
+.username, .user-email {
+    font-size: 1.2em;
+    font-weight: bold;
 }
+
+.user-topics {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.topics-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.topic-link {
+    color: var(--cl-v1-gren);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.topic-link:hover {
+    text-decoration: underline;
+}
+
 
 /* Footer Styles */
 

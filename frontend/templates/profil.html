@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/topicCreat.css">
-    <title>Liste des topics  - Forum_Ynov</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <title>Profil-Forum_Ynov</title>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
 </head>
+
 
 <body>
     <header class="bar">
@@ -19,46 +19,51 @@
         <nav class="links">
             <ul>
                 <li><a href="">menu</a></li>
-                <li><a href="">contact</a></li>
-                <li><a href="">produits</a></li>
+                <li><a href="https://welcome.ynov.com">Ynov</a></li>
+                <li><a href="">profil</a></li>
             </ul>
         </nav>
-
+        
+        
         <div class="b-cont">
             <span class="c-input">
                 <input type="text" name="text" class="input" placeholder="rechercher un forum">
                 <button class="search__btn"><img src="../assets/logos/loupe.svg" alt=""></button>
             </span>
-            <a class="c-account" href="./connection.html">
-                <span class="ca-pseudo">
-                    <img src="../assets/logos/utilisateur.svg" alt="">
-                    CONNEXION
-                </span>
-            </a>
+                <a class="c-account" href="./connection.html">
+                    <span class="ca-pseudo">
+                        <img src="../assets/logos/utilisateur.svg" alt="">
+                        CONNEXION
+                    </span>
+                </a>
         </div>
     </header>
+
     <main>
         <section class="forum">
             <header class="forum-info">
-                <h1>Topics</h1>
-                <p>Explorez les discussions en cours et participez aux conversations.</p>
+                <h1>Nom d'utilisateur</h1>
             </header>
 
-            <div class="topics-list">
-                <div class="message">
-                    <div class="user-info">
-                        <p class="username">Username</p>
-                        <img class="user-avatar" src="avatar.jpg" alt="User Avatar" />
-                    </div>
-                    <div class="message-content">
-                        <h1>Lorem ipsum</h1>
-                    </div>
-                </div>
+            <div class="profile-info">
+                <img src="path-to-avatar.jpg" alt="Avatar" class="user-avatar">
+                <p class="username">Nom d'utilisateur : Nom_d'utilisateur</p>
+                <p class="user-email">Email : utilisateur@example.com</p>
+                <p class="user-topics">Sujets :</p>
+                <ul class="topics-list">
+                    <!-- C'est une maquette statique. Dans une application réelle, ces données seraient générées dynamiquement à partir d'une base de données. -->
+                    <li><a href="topic.html" class="topic-link">Topic 1</a></li>
+                    <li><a href="topic.html" class="topic-link">Topic 2</a></li>
+                    <li><a href="topic.html" class="topic-link">Topic 3</a></li>
+                    <!-- etc... -->
+                </ul>
             </div>
         </section>
     </main>
+    
+
     <footer class="foot">
-        <div class="f-aix">
+        <div class="f-aix">              
             <span class="f-option">
                 <h1>Nous suivre :</h1>
                 <ul>
@@ -83,6 +88,8 @@
             </ul>
         </div>
     </footer>
+    
 </body>
+
 
 </html>
