@@ -9,11 +9,22 @@
 html {
   height: 100%;
 }
+
+:root {
+  --cl-primary: #ECF8F6;
+  --cl-v1-off-white : #FEEAA1;
+  --cl-v2-off-white : #D6955B;
+  --cl-v1-gren: #226D68; 
+  --cl-v2-gren: #18534F; 
+  --cl-text-primary: #333;
+  --cl-text-secondary: #fefefe;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: Verdana;
-  background: linear-gradient(#7DC2A5, #282c34);
+  background: linear-gradient(#18534F ,#ECF8F6);
 }
 
 .caixa__login {
@@ -32,7 +43,7 @@ body {
 .caixa__login h2 {
   margin: 0 0 30px;
   padding: 0;
-  color: #fff;
+  color: var(--cl-primary);
   text-align: center;
   font-family: 'Kalam', cursive;
 }
@@ -45,7 +56,7 @@ body {
   width: 100%;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: var(--cl-primary);
   margin-bottom: 30px;
   border: none;
   border-bottom: 1px solid #fff;
@@ -58,7 +69,7 @@ body {
   left: 0;
   padding: 10px 0;
   font-size: 16px;
-  color: #fff;
+  color: var(--cl-primary);
   pointer-events: none;
   transition: 0.5s;
 }
@@ -67,7 +78,7 @@ body {
 .caixa__login .caixa__login-input input:valid ~ label {
   top: -20px;
   left: 0;
-  color: #E3EBD0;
+  color: var(--cl-primary);
   font-size: 12px;
 }
 
@@ -75,7 +86,7 @@ body {
   position: relative;
   display: inline-block;
   padding: 10px 20px;
-  color: #9FCDA8;
+  color: var(--cl-primary);
   font-size: 16px;
   text-decoration: none;
   text-transform: uppercase;
@@ -87,8 +98,8 @@ body {
 }
 
 .connection:hover {
-  background: #9FCDA8;
-  color: #fff;
+  background: var(--cl-v1-gren);
+  color: var(--cl-v2-gren);
   border-radius: 5px;
   box-shadow: 0 0 5px #282c34, 0 0 25px #282c34, 0 0 50px #282c34,
     0 0 100px #282c34;
@@ -104,7 +115,7 @@ body {
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #9FCDA8);
+  background: linear-gradient(90deg, transparent, var(--cl-text-secondary));
   animation: animacaoBotao1 1s linear infinite;
 }
 
@@ -123,7 +134,7 @@ body {
   right: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(180deg, transparent, #9FCDA8);
+  background: linear-gradient(180deg, transparent, var(--cl-text-secondary));
   animation: animacaoBotao2 1s linear infinite;
   animation-delay: 0.25s;
 }
@@ -143,7 +154,7 @@ body {
   right: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(270deg, transparent, #9FCDA8);
+  background: linear-gradient(270deg, transparent, var(--cl-text-secondary));
   animation: animacaoBotao3 1s linear infinite;
   animation-delay: 0.5s;
 }
@@ -163,7 +174,7 @@ body {
   left: 0;
   width: 2px;
   height: 100%;
-  background: linear-gradient(360deg, transparent, #9FCDA8);
+  background: linear-gradient(360deg, transparent, var(--cl-text-secondary));
   animation: animacaoBotao4 1s linear infinite;
   animation-delay: 0.75s;
 }
@@ -191,5 +202,5 @@ body {
 }
 
 .sinscrire:hover {
-  color: #9FCDA8;
+  color: var(--cl-v1-gren);
 }
