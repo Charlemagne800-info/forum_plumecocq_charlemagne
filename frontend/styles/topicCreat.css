@@ -64,11 +64,15 @@ body {
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);;
 }
 
-.logo {
-    font-size: 50px;
-    font-weight: bold;
-    transition: all 0.3s ease;
+.b-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+.logo img {
+    width: 25%;
+}
+    
 
 .links {
     display: flex;
