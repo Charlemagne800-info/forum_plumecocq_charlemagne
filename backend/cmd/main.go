@@ -176,3 +176,4 @@ func checkCredentials(username, password string, db *sql.DB) bool {
 
 	return count > 0
 }
+
