@@ -5,14 +5,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/connection-registration.css">
+    <link rel="stylesheet" href="../styles/registration.css">
     <title>registre-Forum_Ynov</title>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="caixa__login">
         <h2>● S'INSCRIRE ●</h2>
-        <form>
+        <form action="/registration" method="POST">
+            {{if .ErrorMessage}}
+            <div class="error-message">{{.ErrorMessage}}</div>
+            {{end}}
             <div class="caixa__login-input">
                 <input type="text" id="pseudo" name="pseudo" required />
                 <label for="pseudo">pseudo</label>
@@ -26,7 +30,7 @@
                 <label for="password">password</label>
             </div>
             <a class="sinscrire" href="./connection.html">Déjà un compte ? <br> Connectez vous !</a>
-            <a class="connection" href="#">
+            <a href="#" class="connection" onclick="document.forms[0].submit()">
                 <span></span>
                 <span></span>
                 <span></span>

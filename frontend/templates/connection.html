@@ -5,29 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/connection-registration.css">
+    <link rel="stylesheet" href="../styles/connection.css">
     <title>connection-Forum_Ynov</title>
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="caixa__login">
         <h2>● SE CONNECTER ●</h2>
-        <form>
+        <form action="/login" method="POST">
             <div class="caixa__login-input">
-                <input type="text" id="pseudo" name="pseudo" required />
-                <label for="pseudo">pseudo</label>
+                <input type="text" id="username" name="username" required />
+                <label for="username">Nom d'utilisateur</label>
             </div>
             <div class="caixa__login-input">
                 <input type="password" id="password" name="password" required/>
-                <label for="password">password</label>
+                <label for="password">Mot de passe</label>
             </div>
-            <a class="sinscrire" href="./registration.html">Pas de compte? <br> Inscrivez vous!</a>
-            <a class="connection" href="#">
+            <p class="error-message">{{.ErrorMessage}}</p>
+            <a class="sinscrire" href="/registration">Pas de compte? <br> Inscrivez vous!</a>
+            <a href="#" onclick="document.querySelector('form').submit()" class="connection">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                continue
+                Continuer
             </a>
         </form>
         
