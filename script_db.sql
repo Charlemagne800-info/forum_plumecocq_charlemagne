@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 10 juin 2023 à 15:11
+-- Généré le : lun. 19 juin 2023 à 21:13
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -57,6 +57,32 @@ INSERT INTO `categories` (`id_category`, `category_title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `likers`
+--
+
+DROP TABLE IF EXISTS `likers`;
+CREATE TABLE IF NOT EXISTS `likers` (
+  `id_message` int NOT NULL,
+  `id_user` int NOT NULL,
+  PRIMARY KEY (`id_message`,`id_user`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Déchargement des données de la table `likers`
+--
+
+INSERT INTO `likers` (`id_message`, `id_user`) VALUES
+(2, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 4),
+(2, 5);
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `messages`
 --
 
@@ -70,14 +96,43 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_message`),
   KEY `id_user` (`id_user`),
   KEY `id_topic` (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `messages`
 --
 
 INSERT INTO `messages` (`id_message`, `id_user`, `id_topic`, `content`, `date_created`) VALUES
-(1, 3, 1, 'Je sais pas, t\'es peut être un peu nul', '2023-06-10 15:11:05');
+(1, 3, 1, 'Je sais pas, t\'es peut être un peu nul', '2023-06-10 15:11:05'),
+(2, 1, 1, 'Je suis d\'accord avec toi !', '2023-06-10 15:15:00'),
+(3, 2, 1, 'Oui, c\'est un vrai défi !', '2023-06-10 15:16:00');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reponses`
+--
+
+DROP TABLE IF EXISTS `reponses`;
+CREATE TABLE IF NOT EXISTS `reponses` (
+  `id_reponse` int NOT NULL AUTO_INCREMENT,
+  `id_message` int DEFAULT NULL,
+  `id_user` int DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id_reponse`),
+  KEY `id_message` (`id_message`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `reponses`
+--
+
+INSERT INTO `reponses` (`id_reponse`, `id_message`, `id_user`, `content`) VALUES
+(2, 1, 2, 'Je suis d\'accord avec toi.'),
+(3, 1, 3, 'C\'est pas très gentil'),
+(4, 1, 1, 'Venant de lui ça m\'étonne pas...'),
+(5, 2, 5, 'Je suis d\'accord avec celui qui est d\'accord avec toi');
 
 -- --------------------------------------------------------
 
@@ -111,17 +166,21 @@ DROP TABLE IF EXISTS `topics`;
 CREATE TABLE IF NOT EXISTS `topics` (
   `id_topic` int NOT NULL AUTO_INCREMENT,
   `id_category` int DEFAULT NULL,
+  `id_user` int DEFAULT NULL,
   `topic_title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_topic`),
-  KEY `id_category` (`id_category`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+  KEY `id_category` (`id_category`),
+  KEY `id_user` (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `topics`
 --
 
-INSERT INTO `topics` (`id_topic`, `id_category`, `topic_title`) VALUES
-(1, 1, 'Voltaire c\'est trop dur');
+INSERT INTO `topics` (`id_topic`, `id_category`, `id_user`, `topic_title`) VALUES
+(1, 1, 1, 'Voltaire c\'est trop dur'),
+(2, 1, 2, 'Pourquoi Voltaire existe ???'),
+(3, 5, 3, 'I need help !');
 
 -- --------------------------------------------------------
 
@@ -132,26 +191,37 @@ INSERT INTO `topics` (`id_topic`, `id_category`, `topic_title`) VALUES
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int NOT NULL AUTO_INCREMENT,
-  `id_role` int DEFAULT NULL,
+  `id_role` int DEFAULT 3,
   `username` varchar(50) DEFAULT NULL,
-  `mail` varchar(50) DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   KEY `id_role` (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id_user`, `id_role`, `username`, `mail`, `password`) VALUES
+INSERT INTO `users` (`id_user`, `id_role`, `username`, `email`, `password`) VALUES
 (1, 1, 'Charlemagne', 'test-valentin@gmail.com', 'azertyuiop'),
 (2, 2, 'Plumecocq', 'test-augustin@gmail.com', 'azertyuiop'),
-(3, 3, 'John', 'test-John@gmail.com', 'azertyuiop');
+(3, 3, 'John', 'test-John@gmail.com', 'azertyuiop'),
+(4, 3, 'Emma', 'emma@example.com', 'password123'),
+(5, 3, 'Liam', 'liam@example.com', 'password456'),
+(6, 1, 'admin', 'administrateur-forum@gmail.com', 'P4AC%85sxx'),
+(7, NULL, 'fsqfsqfsfdq', 'fsqfsqf@', 'fqsfsqfsqfsq');
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `likers`
+--
+ALTER TABLE `likers`
+  ADD CONSTRAINT `likers_ibfk_1` FOREIGN KEY (`id_message`) REFERENCES `messages` (`id_message`),
+  ADD CONSTRAINT `likers_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
 -- Contraintes pour la table `messages`
@@ -164,7 +234,8 @@ ALTER TABLE `messages`
 -- Contraintes pour la table `topics`
 --
 ALTER TABLE `topics`
-  ADD CONSTRAINT `topics_ibfk_1` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id_category`);
+  ADD CONSTRAINT `fk_topics_categories` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id_category`),
+  ADD CONSTRAINT `fk_topics_users` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
 -- Contraintes pour la table `users`
