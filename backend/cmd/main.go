@@ -6,13 +6,15 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type Category struct {
-	ID   int
-	Name string
+	ID          int
+	Name        string
+	Description string
 }
 
 type Topic struct {
@@ -29,6 +31,14 @@ type Message struct {
 	Username string
 }
 
+type LoginPageData struct {
+	ErrorMessage string
+}
+
+type RegistrationPageData struct {
+	ErrorMessage string
+}
+
 var db *sql.DB
 
 func main() {
@@ -43,6 +53,12 @@ func main() {
 	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		LoginHandler(w, r, db)
 	})
+	http.HandleFunc("/dashboard", DashboardHandler)
+	http.HandleFunc("/registration", func(w http.ResponseWriter, r *http.Request) {
+		RegistrationHandler(w, r, db)
+	})
+	fs := http.FileServer(http.Dir("../../frontend/styles"))
+	http.Handle("/styles/", http.StripPrefix("/styles/", fs))
 
 	fmt.Println("Server listening on http://localhost:8080")
 	err = http.ListenAndServe(":8080", nil)
@@ -63,12 +79,16 @@ func OpenDBConnection(connectionString string) (*sql.DB, error) {
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		// Afficher la page de connexion
-		tmpl, err := template.ParseFiles("templates/connexion.html")
+		tmpl, err := template.ParseFiles("../../frontend/templates/connection.html")
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		err = tmpl.Execute(w, nil)
+		data := LoginPageData{
+			ErrorMessage: "",
+		}
+
+		err = tmpl.Execute(w, data)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -78,14 +98,50 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("password")
 
 		if checkCredentials(username, password, db) {
-			// Authentification réussie, redirigez vers une autre page
+			// Authentification réussie, redirigez vers la page de dashboard
 			http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
 		} else {
 			// Authentification échouée, afficher un message d'erreur
-			fmt.Fprintln(w, "Identifiants invalides")
+			tmpl, err := template.ParseFiles("../../frontend/templates/connection.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data := LoginPageData{
+				ErrorMessage: "Identifiants invalides",
+			}
+
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	} else {
 		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func DashboardHandler(w http.ResponseWriter, r *http.Request) {
+	// Récupérer les données pour afficher le dashboard
+	categories, err := getCategories()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	data := struct {
+		Categories []Category
+	}{
+		Categories: categories,
+	}
+
+	tmpl, err := template.ParseFiles("../../frontend/templates/dashboard.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
@@ -116,7 +172,7 @@ func getTopics() ([]Topic, error) {
 		INNER JOIN categories ON topics.id_category = categories.id_category
 		INNER JOIN messages ON topics.id_topic = messages.id_topic
 		INNER JOIN users ON messages.id_user = users.id_user
-	`)
+		`)
 	if err != nil {
 		return nil, err
 	}
@@ -132,15 +188,15 @@ func getTopics() ([]Topic, error) {
 		}
 
 		// Add the message to the corresponding topic
+		found := false
 		for i, t := range topics {
 			if t.ID == topic.ID {
 				topics[i].MessageList = append(topics[i].MessageList, message)
+				found = true
 				break
 			}
 		}
-
-		// If the topic does not exist in the list, add it
-		if len(topics) == 0 || topics[len(topics)-1].ID != topic.ID {
+		if !found {
 			topic.MessageList = append(topic.MessageList, message)
 			topics = append(topics, topic)
 		}
@@ -150,20 +206,29 @@ func getTopics() ([]Topic, error) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
-	if r.Method != "POST" {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
+	// Extraire les valeurs du formulaire
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 
 	if checkCredentials(username, password, db) {
-		// Authentification réussie, redirigez vers une autre page
+		// Authentification réussie, redirigez vers la page de dashboard
 		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+		return // Ajouter cette ligne pour arrêter l'exécution de la fonction après la redirection
 	} else {
-		// Authentification échouée, redirigez vers une autre page d'erreur
-		http.Redirect(w, r, "/login-error", http.StatusSeeOther)
+		// Authentification échouée, afficher un message d'erreur
+		tmpl, err := template.ParseFiles("../../frontend/templates/connection.html")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		data := LoginPageData{
+			ErrorMessage: "Identifiants invalides",
+		}
+
+		err = tmpl.Execute(w, data)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
@@ -177,3 +242,127 @@ func checkCredentials(username, password string, db *sql.DB) bool {
 	return count > 0
 }
 
+func RegistrationHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
+	if r.Method == "GET" {
+		// Afficher la page d'inscription
+		tmpl, err := template.ParseFiles("../../frontend/templates/registration.html")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = tmpl.Execute(w, nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else if r.Method == "POST" {
+		// Traiter les données d'inscription
+		username := r.FormValue("pseudo")
+		email := r.FormValue("email")
+		password := r.FormValue("password")
+
+		if !isUsernameAvailable(username, db) {
+			// Nom d'utilisateur déjà pris, afficher un message d'erreur
+			tmpl, err := template.ParseFiles("../../frontend/templates/registration.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data := RegistrationPageData{
+				ErrorMessage: "Nom d'utilisateur déjà pris",
+			}
+
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			return
+		}
+
+		if !isEmailValid(email) {
+			// Adresse e-mail invalide, afficher un message d'erreur
+			tmpl, err := template.ParseFiles("../../frontend/templates/registration.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data := RegistrationPageData{
+				ErrorMessage: "Adresse e-mail invalide",
+			}
+
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			return
+		}
+
+		if len(password) < 10 {
+			// Mot de passe trop court, afficher un message d'erreur
+			tmpl, err := template.ParseFiles("../../frontend/templates/registration.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data := RegistrationPageData{
+				ErrorMessage: "Mot de passe trop court (min 10 caractères))",
+			}
+
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			return
+		}
+
+		// Créer l'utilisateur et l'ajouter à la base de données
+		if createUser(username, email, password, db) {
+			// Utilisateur créé avec succès, redirigez vers la page de connexion
+			http.Redirect(w, r, "/login", http.StatusSeeOther)
+			return
+		} else {
+			// Échec de la création de l'utilisateur, afficher un message d'erreur
+			tmpl, err := template.ParseFiles("../../frontend/templates/registration.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data := RegistrationPageData{
+				ErrorMessage: "Échec de la création de l'utilisateur",
+			}
+
+			err = tmpl.Execute(w, data)
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+	} else {
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+	}
+}
+
+func isUsernameAvailable(username string, db *sql.DB) bool {
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", username).Scan(&count)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return count == 0
+}
+
+func isEmailValid(email string) bool {
+	return strings.Contains(email, "@")
+}
+
+func createUser(username, email, password string, db *sql.DB) bool {
+	_, err := db.Exec("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", username, email, password)
+	if err != nil {
+		log.Fatal(err)
+		return false
+	}
+
+	return true
+}
