@@ -54,6 +54,8 @@ func main() {
 		LoginHandler(w, r, db)
 	})
 	http.HandleFunc("/dashboard", DashboardHandler)
+	http.HandleFunc("/category/", CategoryHandler)
+	http.HandleFunc("/choiceTopic", ChoiceTopicHandler)
 	http.HandleFunc("/registration", func(w http.ResponseWriter, r *http.Request) {
 		RegistrationHandler(w, r, db)
 	})
@@ -365,4 +367,100 @@ func createUser(username, email, password string, db *sql.DB) bool {
 	}
 
 	return true
+}
+
+func CategoryHandler(w http.ResponseWriter, r *http.Request) {
+	categoryID := strings.TrimPrefix(r.URL.Path, "/category/")
+	categoryID = strings.TrimSuffix(categoryID, "/")
+
+	// Redirect to the choiceTopic.html page with the category ID as a URL parameter
+	http.Redirect(w, r, "/choiceTopic?category="+categoryID, http.StatusSeeOther)
+}
+
+func getCategoryByID(categoryID string) (Category, error) {
+	var category Category
+	err := db.QueryRow("SELECT id_category, category_title, category_description FROM categories WHERE id_category = ?", categoryID).Scan(&category.ID, &category.Name, &category.Description)
+	if err != nil {
+		return Category{}, err
+	}
+
+	return category, nil
+}
+
+func getTopicsByCategoryID(categoryID string) ([]Topic, error) {
+	rows, err := db.Query(`
+		SELECT topics.id_topic, topics.id_category, topics.topic_title, categories.category_title, messages.id_message, messages.content, users.username
+		FROM topics
+		INNER JOIN categories ON topics.id_category = categories.id_category
+		INNER JOIN messages ON topics.id_topic = messages.id_topic
+		INNER JOIN users ON messages.id_user = users.id_user
+		WHERE topics.id_category = ?
+		`, categoryID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var topics []Topic
+	for rows.Next() {
+		var topic Topic
+		var message Message
+		err := rows.Scan(&topic.ID, &topic.CategoryID, &topic.Title, &topic.Category, &message.ID, &message.Content, &message.Username)
+		if err != nil {
+			return nil, err
+		}
+
+		// Add the message to the corresponding topic
+		found := false
+		for i, t := range topics {
+			if t.ID == topic.ID {
+				topics[i].MessageList = append(topics[i].MessageList, message)
+				found = true
+				break
+			}
+		}
+		if !found {
+			topic.MessageList = append(topic.MessageList, message)
+			topics = append(topics, topic)
+		}
+	}
+
+	return topics, nil
+}
+
+func ChoiceTopicHandler(w http.ResponseWriter, r *http.Request) {
+	categoryID := r.URL.Query().Get("category")
+
+	// Retrieve the category information
+	category, err := getCategoryByID(categoryID)
+	if err != nil {
+		http.Error(w, "Category not found", http.StatusNotFound)
+		return
+	}
+
+	// Retrieve the topics for the selected category
+	topics, err := getTopicsByCategoryID(categoryID)
+	if err != nil {
+		http.Error(w, "Failed to get topics", http.StatusInternalServerError)
+		return
+	}
+
+	// Pass the data to the choiceTopic.html template for rendering
+	data := struct {
+		Category Category
+		Topics   []Topic
+	}{
+		Category: category,
+		Topics:   topics,
+	}
+
+	tmpl, err := template.ParseFiles("../../frontend/templates/choiceTopic.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = tmpl.Execute(w, data)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
