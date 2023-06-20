@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 19 juin 2023 à 21:13
+-- Généré le : mar. 20 juin 2023 à 17:46
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `id_category` int NOT NULL AUTO_INCREMENT,
   `category_title` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_category`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `categories`
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `likers` (
   `id_user` int NOT NULL,
   PRIMARY KEY (`id_message`,`id_user`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `likers`
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id_message`),
   KEY `id_user` (`id_user`),
   KEY `id_topic` (`id_topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `messages`
@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `id_role` int NOT NULL AUTO_INCREMENT,
   `name_role` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `roles`
@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `topics` (
   PRIMARY KEY (`id_topic`),
   KEY `id_category` (`id_category`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `topics`
@@ -191,27 +191,26 @@ INSERT INTO `topics` (`id_topic`, `id_category`, `id_user`, `topic_title`) VALUE
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id_user` int NOT NULL AUTO_INCREMENT,
-  `id_role` int DEFAULT 3,
+  `id_role` int DEFAULT '3',
   `username` varchar(50) DEFAULT NULL,
-  `email` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_user`),
   KEY `id_role` (`id_role`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id_user`, `id_role`, `username`, `email`, `password`) VALUES
-(1, 1, 'Charlemagne', 'test-valentin@gmail.com', 'azertyuiop'),
-(2, 2, 'Plumecocq', 'test-augustin@gmail.com', 'azertyuiop'),
-(3, 3, 'John', 'test-John@gmail.com', 'azertyuiop'),
-(4, 3, 'Emma', 'emma@example.com', 'password123'),
-(5, 3, 'Liam', 'liam@example.com', 'password456'),
-(6, 1, 'admin', 'administrateur-forum@gmail.com', 'P4AC%85sxx'),
-(7, NULL, 'fsqfsqfsfdq', 'fsqfsqf@', 'fqsfsqfsqfsq');
-
+(1, 1, 'Charlemagne', 'test-valentin@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(2, 2, 'Plumecocq', 'test-augustin@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(3, 3, 'John', 'test-John@gmail.com', 'aa3d2fe4f6d301dbd6b8fb2d2fddfb7aeebf3bec53ffff4b39a0967afa88c609'),
+(4, 3, 'Emma', 'emma@example.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f'),
+(5, 3, 'Liam', 'liam@example.com', 'c6ba91b90d922e159893f46c387e5dc1b3dc5c101a5a4522f03b987177a24a91'),
+(6, 1, 'admin', 'administrateur-forum@gmail.com', '0d15f5d0b0031c69e29156913753378011f7425359f7a29332f8ce30d1e6f5ff'),
+  
 --
 -- Contraintes pour les tables déchargées
 --
