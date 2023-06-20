@@ -8,13 +8,13 @@ Projet Forum d'Aix Ynov Campus
 Télécharger le .zip avec "<> code" puis Download ZIP
 Une fois décompressez le zip puis ouvrez le dossier dans un éditeur de code ou un compilateur
 
-Placez vous dans le dossier backend
+Placez vous dans le dossier backend puis cmd
 
 Utilisez le script **script_db.sql** pour générer une base de données local pour que le forum ai une base de lancement...
 
 Puis **tapez go run main.go**
 ```terminal
-(Message d'affichage de réussite de la connection à la base de données)
+(Server listening on http://localhost:8080)
 ```
 
 ### Pré-requis
@@ -30,11 +30,10 @@ Il faut juste que les dossiers et fichiers contenu dans le zip ne soit pas sépa
 Une fois que vous avez fait tous les prérequis, installation de base de données et lancement du main.go, votre terminal devrait afficher cela :
 ```terminal
 (
-Affichage d'un truc
+Server listening on http://localhost:8080
 )
 ```
-Une fois la connection avec la base de données créée, allez dans votre explorateur de fichier pour trouver **l'index.html** qui une fois ouvert (double-click) affichera le forum en question
-
+Faites ctrl + clique droit sur le lien http, cela va ouvrir le forum
 C'est fini ! 
 ## Fabriqué avec
 
